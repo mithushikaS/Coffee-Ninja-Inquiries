@@ -1,0 +1,294 @@
+/* New inquiry page (ni-*): self-contained and scoped under .ni */
+.ni {
+  position: relative;
+  min-height: 100vh;
+  overflow: hidden;
+  overflow: clip;
+  background: #f6f7f3;
+  color: #1d3b30;
+}
+/* Big soft circle behind the card, as in the mockup */
+.ni::before {
+  content: "";
+  position: absolute;
+  right: -14%;
+  bottom: -34%;
+  width: 72vw;
+  height: 72vw;
+  border-radius: 50%;
+  background: rgba(214, 228, 208, 0.5);
+  pointer-events: none;
+}
+
+/* ---------- Header ---------- */
+.ni-header {
+  position: sticky; top: 0; z-index: 20;
+  background: #fff; border-bottom: 1px solid #e8ebe3;
+  box-shadow: 0 2px 14px rgba(18, 48, 42, 0.06);
+}
+.ni-header-inner {
+  max-width: 1240px; margin: 0 auto; padding: 0 24px; min-height: 72px;
+  display: flex; align-items: center; justify-content: space-between; gap: 24px;
+}
+.ni-brand {
+  display: inline-flex; align-items: center; gap: 10px; text-decoration: none; color: #12302a;
+  font-family: var(--font-display), var(--font-body), system-ui, sans-serif;
+  font-size: 1.35rem; font-weight: 700; letter-spacing: -0.02em;
+}
+.ni-brand:hover { color: #12302a; }
+.ni-cup { width: 40px; height: 40px; flex: none; }
+.ni-cup path { fill: none; stroke-width: 2.4; stroke-linecap: round; stroke-linejoin: round; }
+.ni-cup .steam { stroke: #d98a3d; }
+.ni-cup .body { fill: #1f4a40; stroke: #1f4a40; }
+.ni-cup .handle { stroke: #1f4a40; }
+
+.ni-nav { display: flex; gap: 8px; height: 72px; }
+.ni-nav a {
+  position: relative; display: inline-flex; align-items: center; padding: 0 14px;
+  color: #2b4a3d; font-size: 0.95rem; font-weight: 500; text-decoration: none;
+}
+.ni-nav a:hover { color: #12302a; background: transparent; }
+.ni-nav a[aria-current="page"] { font-weight: 650; color: #12302a; }
+.ni-nav a[aria-current="page"]::after {
+  content: ""; position: absolute; left: 14px; right: 14px; bottom: 0; height: 3px;
+  border-radius: 3px 3px 0 0; background: #1d4a3a;
+}
+
+.ni-user { display: flex; align-items: center; gap: 16px; }
+.ni-user-name { font-size: 0.95rem; font-weight: 500; color: #2b4a3d; }
+.ni .ni-signout {
+  min-height: 44px; padding: 0 22px; border: 0; border-radius: 10px;
+  background: #12302a; color: #fff; font-weight: 600; box-shadow: none;
+}
+.ni .ni-signout:hover:not(:disabled) { background: #1d4a3a; box-shadow: none; }
+
+/* ---------- Main layout ---------- */
+.ni-main {
+  position: relative; z-index: 1;
+  max-width: 1240px; margin: 0 auto; padding: 56px 24px 72px;
+  min-height: calc(100vh - 72px);
+  display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.25fr);
+  gap: clamp(32px, 5vw, 80px); align-items: start;
+}
+
+.ni-leaves { position: fixed; width: clamp(130px, 14vw, 220px); color: #2d5a45; opacity: 0.22; pointer-events: none; z-index: 0; }
+.ni-leaves-tl { top: 56px; left: -30px; transform: rotate(-20deg) scaleX(-1); }
+.ni-leaves-br { bottom: -40px; right: -34px; transform: rotate(160deg); }
+
+/* Photo: fades into the page so no box edge shows */
+.ni-photo {
+  position: fixed; left: 0; bottom: 0; z-index: 0;
+  width: min(44vw, 600px); height: min(56vh, 470px);
+  background: url('/inquiry-cup.png') left bottom / cover no-repeat;
+  -webkit-mask-image: radial-gradient(ellipse 85% 85% at 22% 85%, #000 42%, transparent 72%);
+  mask-image: radial-gradient(ellipse 85% 85% at 22% 85%, #000 42%, transparent 72%);
+  pointer-events: none;
+}
+
+/* ---------- Left: intro ---------- */
+.ni-intro { position: relative; z-index: 1; padding-top: 24px; }
+.ni .ni-pill {
+  display: inline-flex; align-items: center; gap: 6px; padding: 7px 16px 7px 10px; border-radius: 999px;
+  background: #e3eedf; color: #1d4a3a; font-size: 0.92rem; font-weight: 600; text-decoration: none;
+  transition: background 150ms ease;
+}
+.ni .ni-pill:hover { background: #d6e6d1; color: #12302a; }
+.ni-pill svg { width: 18px; height: 18px; }
+
+.ni .ni-h1 {
+  margin: 22px 0 16px; color: #12302a;
+  font-size: clamp(2.6rem, 5vw, 4.2rem); font-weight: 750; line-height: 1.05; letter-spacing: -0.04em;
+}
+.ni .ni-h1 span {
+  background: linear-gradient(90deg, #1d5a47, #3f8a5f);
+  -webkit-background-clip: text; background-clip: text; color: transparent;
+}
+.ni .ni-lead { max-width: 40ch; margin: 0 0 30px; color: #46564d; font-size: 1.05rem; line-height: 1.7; }
+
+.ni-points { list-style: none; margin: 0; padding: 0; display: grid; gap: 22px; max-width: 420px; }
+.ni-points li { display: flex; align-items: flex-start; gap: 16px; }
+.ni-point-icon {
+  display: grid; place-items: center; flex: 0 0 52px; width: 52px; height: 52px; border-radius: 50%;
+  background: #e3eedf; color: #1d5a47;
+}
+.ni-point-icon svg { width: 24px; height: 24px; }
+.ni-point-copy { display: flex; flex-direction: column; gap: 2px; padding-top: 2px; }
+.ni-point-copy strong { color: #12302a; font-size: 1.02rem; }
+.ni-point-copy span { color: #5d6d63; font-size: 0.92rem; line-height: 1.55; }
+
+/* ---------- Right: form card ---------- */
+.ni-card {
+  position: relative; z-index: 1;
+  padding: clamp(24px, 3.4vw, 44px);
+  background: #fff; border: 1px solid #ebeee6; border-radius: 16px;
+  box-shadow: 0 24px 60px rgba(24, 54, 41, 0.08), 0 2px 8px rgba(24, 54, 41, 0.04);
+}
+.ni .ni-card-title { margin: 0 0 8px; color: #12302a; font-size: clamp(1.8rem, 3vw, 2.3rem); font-weight: 700; letter-spacing: -0.03em; line-height: 1.15; }
+.ni .ni-card-sub { margin: 0 0 28px; color: #5d6d63; font-size: 0.98rem; line-height: 1.6; }
+
+.ni-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 22px 22px; }
+.ni-span { grid-column: 1 / -1; }
+.ni-field { display: flex; flex-direction: column; gap: 8px; min-width: 0; }
+
+.ni .ni-label { color: #1d3b30; font-size: 0.93rem; font-weight: 650; }
+.ni .ni-label::after { content: " *"; color: #c62828; }
+
+.ni .ni-control {
+  display: flex; align-items: center; gap: 12px; min-height: 54px; padding: 0 16px;
+  border: 1px solid #dcdfd4; border-radius: 10px; background: #fff;
+  transition: border-color 150ms ease, box-shadow 150ms ease, background 150ms ease;
+}
+.ni .ni-control.is-multiline { align-items: flex-start; padding-top: 16px; padding-bottom: 12px; }
+.ni .ni-control:hover { border-color: #b9c9ba; }
+.ni .ni-control:focus-within { border-color: #28614b; box-shadow: 0 0 0 4px rgba(40, 97, 75, 0.12); }
+.ni .ni-control.is-invalid { border-color: #c62828; background: #fffafa; }
+.ni .ni-control.is-invalid:focus-within { box-shadow: 0 0 0 4px rgba(198, 40, 40, 0.14); }
+.ni .ni-control:has(:disabled) { background: #f1f3ef; }
+.ni .ni-control > svg { flex: none; width: 20px; height: 20px; color: #5f7a6c; }
+.ni .ni-control.is-multiline > svg { margin-top: 1px; }
+
+.ni .ni-control input,
+.ni .ni-control input:hover,
+.ni .ni-control input:focus,
+.ni .ni-control input:focus-visible,
+.ni .ni-control input:disabled,
+.ni .ni-control textarea,
+.ni .ni-control textarea:hover,
+.ni .ni-control textarea:focus,
+.ni .ni-control textarea:focus-visible,
+.ni .ni-control textarea:disabled {
+  flex: 1; width: auto; min-width: 0; padding: 0; border: 0; border-radius: 0;
+  background: transparent; box-shadow: none; outline: none; color: #233b30; font: inherit;
+}
+.ni .ni-control input { min-height: 52px; }
+.ni .ni-control textarea { min-height: 150px; line-height: 1.65; resize: vertical; }
+.ni .ni-control input::placeholder, .ni .ni-control textarea::placeholder { color: #9aa59b; }
+.ni .ni-control input:disabled, .ni .ni-control textarea:disabled { color: #6d7a70; cursor: not-allowed; }
+
+.ni .ni-count { align-self: flex-end; color: #7b867d; font-size: 0.8rem; }
+.ni .ni-error { color: #b42318; font-size: 0.87rem; line-height: 1.5; }
+
+.ni .ni-alert {
+  margin-bottom: 20px; padding: 13px 16px; border: 1px solid #efc4c0; border-radius: 10px;
+  background: #fff2f0; color: #9d2922; line-height: 1.6;
+}
+.ni .ni-alert a { color: #9d2922; font-weight: 650; }
+
+.ni .ni-actions {
+  display: flex; justify-content: flex-end; align-items: center; gap: 14px;
+  margin-top: 28px; padding-top: 24px; border-top: 1px solid #ebeee6;
+}
+.ni a.ni-cancel {
+  display: inline-flex; align-items: center; justify-content: center; min-width: 120px; min-height: 50px;
+  padding: 0 24px; border: 1px solid #1d5a47; border-radius: 10px; background: #fff;
+  color: #1d5a47; font-weight: 600; text-decoration: none; transition: background 150ms ease;
+}
+.ni a.ni-cancel:hover { background: #eef5ec; color: #12302a; }
+.ni button.ni-save {
+  display: inline-flex; align-items: center; justify-content: center; gap: 10px;
+  min-width: 170px; min-height: 50px; padding: 0 26px; border: 0; border-radius: 10px;
+  background: #1d4a3a; color: #fff; font-size: 1rem; font-weight: 650;
+  box-shadow: 0 6px 14px rgba(23, 70, 54, 0.18);
+}
+.ni button.ni-save svg { width: 18px; height: 18px; }
+.ni button.ni-save:hover:not(:disabled) {
+  background: #153a2d; box-shadow: 0 10px 20px rgba(23, 70, 54, 0.24); transform: translateY(-1px);
+}
+.ni button.ni-save:active:not(:disabled) { transform: none; }
+.ni button.ni-save:disabled { opacity: 0.65; cursor: not-allowed; }
+
+.ni :focus-visible { outline: 3px solid rgba(40, 97, 75, 0.4); outline-offset: 3px; }
+
+/* ---------- Responsive ---------- */
+@media (max-width: 980px) {
+  .ni-main { grid-template-columns: minmax(0, 1fr); padding-top: 28px; gap: 28px; }
+  .ni-photo { display: none; }
+  .ni-intro { padding-top: 0; }
+  .ni .ni-lead { margin-bottom: 22px; }
+  .ni-points { grid-template-columns: repeat(3, minmax(0, 1fr)); max-width: none; gap: 16px; }
+  .ni-points li { flex-direction: column; gap: 10px; }
+}
+@media (max-width: 760px) {
+  .ni-nav { display: none; }
+}
+@media (max-width: 640px) {
+  .ni-header-inner { padding: 0 16px; min-height: 64px; }
+  .ni-user-name { display: none; }
+  .ni-main { padding: 20px 14px 48px; }
+  .ni-points { display: none; }
+  .ni-grid { grid-template-columns: 1fr; gap: 18px; }
+  .ni .ni-actions { flex-direction: column-reverse; align-items: stretch; }
+  .ni a.ni-cancel, .ni button.ni-save { width: 100%; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .ni *, .ni *::before, .ni *::after { transition: none !important; }
+}
+/* =========================================================
+   FIT TO ONE SCREEN (laptops and desktops)
+   Phones, tablets, and very short windows keep normal scrolling.
+   ========================================================= */
+@media (min-width: 981px) and (min-height: 560px) {
+  .ni { height: 100vh; height: 100dvh; display: flex; flex-direction: column; }
+  .ni::before { width: 70vw; height: 70vw; right: -14%; bottom: -36%; }
+
+  .ni-header { flex: none; }
+  .ni-header-inner { min-height: clamp(56px, 9vh, 72px); }
+  .ni-nav { height: clamp(56px, 9vh, 72px); }
+  .ni .ni-signout { min-height: clamp(38px, 5.6vh, 44px); }
+
+  /* The main area fills what is left under the header */
+  .ni-main {
+    flex: 1; min-height: 0;
+    padding: clamp(14px, 3.4vh, 40px) 24px;
+    grid-template-rows: minmax(0, 1fr);
+    align-items: center;
+  }
+
+  /* ----- Left: scales with window height ----- */
+  .ni-intro { align-self: center; padding-top: 0; }
+  .ni .ni-h1 { margin: clamp(10px, 2.2vh, 22px) 0 clamp(8px, 1.8vh, 16px); font-size: clamp(2.2rem, min(5vw, 8.5vh), 4.2rem); }
+  .ni .ni-lead { margin-bottom: clamp(12px, 2.6vh, 30px); font-size: clamp(0.92rem, 1.9vh, 1.05rem); line-height: 1.6; }
+  .ni-points { gap: clamp(10px, 2.4vh, 22px); }
+  .ni-point-icon { flex-basis: clamp(40px, 6vh, 52px); width: clamp(40px, 6vh, 52px); height: clamp(40px, 6vh, 52px); }
+  .ni-point-copy strong { font-size: clamp(0.94rem, 1.9vh, 1.02rem); }
+  .ni-point-copy span { font-size: clamp(0.84rem, 1.7vh, 0.92rem); line-height: 1.45; }
+  .ni-photo { width: min(40vw, 520px); height: clamp(170px, 30vh, 420px); }
+
+  /* ----- Right: the card shrinks to fit, the Description box absorbs the slack ----- */
+  .ni-card {
+    align-self: center; max-height: 100%;
+    display: flex; flex-direction: column; overflow: auto;
+    padding: clamp(16px, 3.4vh, 44px) clamp(22px, 3vw, 44px);
+  }
+  .ni .ni-card-title { margin-bottom: clamp(4px, 1vh, 8px); font-size: clamp(1.5rem, 4.2vh, 2.3rem); }
+  .ni .ni-card-sub { margin-bottom: clamp(10px, 2.4vh, 28px); font-size: clamp(0.88rem, 1.8vh, 0.98rem); }
+
+  .ni-form { flex: 1 1 auto; min-height: 0; display: flex; flex-direction: column; }
+  .ni-grid { flex: 1 1 auto; min-height: 0; gap: clamp(10px, 2.2vh, 22px); grid-template-rows: auto auto minmax(0, 1fr); }
+  .ni-field { gap: clamp(4px, 1vh, 8px); }
+  .ni .ni-label { font-size: clamp(0.86rem, 1.8vh, 0.93rem); }
+
+  .ni .ni-control { min-height: clamp(42px, 6.4vh, 54px); }
+  .ni .ni-control input { min-height: clamp(40px, 6.2vh, 52px); }
+
+  /* Description grows or shrinks with the space available */
+  .ni-grid > .ni-field:last-child { min-height: 0; }
+  .ni .ni-control.is-multiline { flex: 1 1 auto; min-height: 76px; padding-top: 14px; padding-bottom: 10px; }
+  .ni .ni-control.is-multiline textarea { height: 100%; min-height: 0; resize: none; }
+
+  .ni .ni-actions { margin-top: clamp(10px, 2.2vh, 28px); padding-top: clamp(10px, 2.2vh, 24px); }
+  .ni a.ni-cancel, .ni button.ni-save { min-height: clamp(42px, 6vh, 50px); }
+}
+
+/* Slightly shorter laptop windows: trim the extras */
+@media (min-width: 981px) and (min-height: 560px) and (max-height: 700px) {
+  .ni-point-copy span { display: none; }
+  .ni-points { gap: 12px; }
+}
+/* Left intro: start at the top, level with the card */
+@media (min-width: 981px) and (min-height: 560px) {
+  .ni-main { align-items: start; }
+  .ni-intro { align-self: start; padding-top: clamp(4px, 1.5vh, 16px); }
+  .ni-card { align-self: start; }
+}
